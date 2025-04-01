@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}All Reported Incidents{% endblock %}
+
+{% block content %}
+    <style>
+        /* Button Styling */
+        .vote-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .vote-btn:hover {
+            background: #218838;
+        }
+    </style>
+
+    <h1>🚨 All Reported Spam Incidents</h1>
+    <form method="GET" style="margin-bottom: 20px; background: #f1f1f1; padding: 15px; border-radius: 8px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="text" name="q" placeholder="Search..." value="{{ query }}" />
+            <input type="text" name="spam_type" placeholder="Spam Type" value="{{ spam_type }}" />
+            <input type="text" name="siren" placeholder="SIREN" value="{{ siren }}" />
+            <input type="text" name="email" placeholder="Victim or Spammer Email" value="{{ email }}" />
+            <input type="text" name="name" placeholder="Spammer Name" value="{{ name }}" />
+            <button type="submit">🔍 Filter</button>
+        </div>
+    </form>
+    
+    <!-- Report List -->
+    <div class="accident-grid">
+        {% for report in accidents %}
+        <div class="report-card">
+            <h2>{{ report.title|default:"Untitled Report" }}</h2>
+            <p><strong>Spam Type:</strong> {{ report.spam_type|default:"Not specified" }}</p>
+            <p class="date"><strong>Date:</strong> {{ report.created_at }}</p>
+            <p><strong>Description:</strong> {{ report.description|default:"No description available." }}</p>
+            
+            <!-- Vote Count & Button -->
+            <p><strong>👍 Votes:</strong> <span id="vote-count-{{ report.id }}">{{ report.vote_count }}</span></p>
+            <button class="vote-btn" onclick="vote({{ report.id }})">✅ I Experienced This</button>
+        </div>
+        {% empty %}
+        <p>No spam incidents reported yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- AJAX Voting Script -->
+    <script>
+        function vote(reportId) {
+            fetch(`/accidents/${reportId}/upvote/`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`vote-count-${reportId}`).innerText = data.new_vote_count;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+{% endblock %}
