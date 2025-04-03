@@ -6,6 +6,8 @@ from .serializers import AccidentReportSerializer
 from .forms import AccidentReportForm
 from django.http import JsonResponse
 from django.db.models import Q
+from django.utils.translation import gettext as _
+
 
 
 

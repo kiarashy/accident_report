@@ -1,11 +1,12 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Accident Reporting{% endblock %}</title>
+    <title>{% block title %}{% trans "Accident Reporting" %}{% endblock %}</title>
     <style>
-        /* Reset some default styles */
+        /* Reset and base styling */
         * {
             margin: 0;
             padding: 0;
@@ -44,7 +45,7 @@
             text-decoration: underline;
         }
 
-        /* Language Switcher */
+        /* Language switcher */
         .lang-switch {
             display: flex;
             align-items: center;
@@ -60,9 +61,9 @@
             border: none;
         }
 
-        /* Content Styling */
+        /* Content */
         .container {
-            margin-top: 80px; /* Push content below fixed navbar */
+            margin-top: 80px; /* space for fixed navbar */
             padding: 20px;
         }
 
@@ -73,7 +74,6 @@
             margin-top: 20px;
             background: #f1f1f1;
         }
-
     </style>
 </head>
 <body>
@@ -81,12 +81,12 @@
     <!-- Navigation Bar -->
     <div class="navbar">
         <div>
-            <a href="/" class="logo">🚨 Accident Reporting</a>
-            <a href="/accidents/">📋 Reports</a>
-            <a href="/report/">➕ Report an Incident</a>
+            <a href="/" class="logo">🚨 {% trans "Accident Reporting" %}</a>
+            <a href="/accidents/">📋 {% trans "Reports" %}</a>
+            <a href="/report/">➕ {% trans "Report an Incident" %}</a>
         </div>
         <div class="lang-switch">
-            🌍 Language:
+            🌍 {% trans "Language" %}:
             <form action="{% url 'set_language' %}" method="post">
                 {% csrf_token %}
                 <select name="language" onchange="this.form.submit()">
@@ -104,7 +104,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2025 Accident Reporting System | All rights reserved.</p>
+        <p>&copy; 2025 {% trans "Accident Reporting System" %} | {% trans "All rights reserved." %}</p>
     </div>
 
 </body>

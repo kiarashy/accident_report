@@ -1,0 +1,137 @@
+# French translations for Django app
+msgid ""
+msgstr ""
+"Project-Id-Version: Accident Reporting App\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-03 19:22+0200\n"
+"PO-Revision-Date: 2025-04-03 19:30+0200\n"
+"Last-Translator: Kiarash Yasoubi <your.email@example.com>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "French"
+msgstr "Français"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Spammer's Email"
+msgstr "Email de l'arnaqueur"
+
+msgid "Spammer's Phone Number"
+msgstr "Numéro de téléphone de l'arnaqueur"
+
+msgid "Type of Spam"
+msgstr "Type de spam"
+
+msgid "Spammer's Name"
+msgstr "Nom de l'arnaqueur"
+
+msgid "Location of Spam Encounter"
+msgstr "Lieu de l'arnaque"
+
+msgid "SIREN Number"
+msgstr "Numéro SIREN"
+
+msgid "Website Involved"
+msgstr "Site Web concerné"
+
+msgid "Your Email (optional)"
+msgstr "Votre email (optionnel)"
+
+msgid "Enter the spammer's email if known."
+msgstr "Entrez l'email de l'arnaqueur si vous le connaissez."
+
+msgid "Optional: French SIREN company identifier."
+msgstr "Optionnel : identifiant SIREN de l'entreprise."
+
+msgid "URL or domain where the spam was seen."
+msgstr "URL ou domaine où le spam a été repéré."
+
+msgid "Spammer Email"
+msgstr "Email de l'arnaqueur"
+
+msgid "Spam Type"
+msgstr "Type de spam"
+
+msgid "Spammer Name"
+msgstr "Nom de l'arnaqueur"
+
+msgid "Spam Location"
+msgstr "Lieu de l'arnaque"
+
+msgid "Website"
+msgstr "Site Web"
+
+msgid "Victim Email"
+msgstr "Email de la victime"
+
+msgid "Date Reported"
+msgstr "Date du signalement"
+
+msgid "Vote Count"
+msgstr "Nombre de votes"
+
+msgid "Accident Reporting"
+msgstr "Déclaration d'incident"
+
+msgid "Reports"
+msgstr "Signalements"
+
+msgid "Report an Incident"
+msgstr "Signaler un incident"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Accident Reporting System"
+msgstr "Système de déclaration d'incidents"
+
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
+
+msgid "All Reported Incidents"
+msgstr "Tous les incidents signalés"
+
+msgid "All Reported Spam Incidents"
+msgstr "Tous les spams signalés"
+
+msgid "Search..."
+msgstr "Rechercher..."
+
+msgid "Victim or Spammer Email"
+msgstr "Email de la victime ou de l'arnaqueur"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Untitled Report"
+msgstr "Signalement sans titre"
+
+msgid "Not specified"
+msgstr "Non spécifié"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "No description available."
+msgstr "Aucune description disponible."
+
+msgid "Votes"
+msgstr "Votes"
+
+msgid "I Experienced This"
+msgstr "J'ai vécu cela"
+
+msgid "No spam incidents reported yet."
+msgstr "Aucun spam signalé pour le moment."

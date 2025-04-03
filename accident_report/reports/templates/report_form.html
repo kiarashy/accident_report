@@ -65,23 +65,68 @@
 
     </style>
 
-    <!-- Form Container -->
-    <div class="form-container">
-        <h2>📢 Report an Incident</h2>
+
+<div class="form-container">
+    <h1>📢 Signaler un incident de spam</h1>
+    <p>Merci de remplir le formulaire ci-dessous pour signaler un incident de spam ou d’arnaque.</p>
+
+    <form method="post">
+        {% csrf_token %}
         
-        <form method="post">
-            {% csrf_token %}
+        <div class="form-group">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
 
-            <!-- Django Form Rendering -->
-            {% for field in form %}
-            <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
-            </div>
-            {% endfor %}
+        <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+        </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="submit-btn">🚨 Submit Report</button>
-        </form>
-    </div>
+        <div class="form-group">
+            {{ form.spam_email.label_tag }}
+            {{ form.spam_email }}
+            <small>{{ form.spam_email.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.spam_number.label_tag }}
+            {{ form.spam_number }}
+        </div>
+
+        <div class="form-group">
+            {{ form.spam_type.label_tag }}
+            {{ form.spam_type }}
+        </div>
+
+        <div class="form-group">
+            {{ form.spam_name.label_tag }}
+            {{ form.spam_name }}
+        </div>
+
+        <div class="form-group">
+            {{ form.spam_location.label_tag }}
+            {{ form.spam_location }}
+        </div>
+
+        <div class="form-group">
+            {{ form.siren.label_tag }}
+            {{ form.siren }}
+            <small>{{ form.siren.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.site.label_tag }}
+            {{ form.site }}
+            <small>{{ form.site.help_text }}</small>
+        </div>
+
+        <div class="form-group">
+            {{ form.vic_email.label_tag }}
+            {{ form.vic_email }}
+        </div>
+
+        <button type="submit" class="btn-submit">🚨 Soumettre le rapport</button>
+    </form>
+</div>
 {% endblock %}

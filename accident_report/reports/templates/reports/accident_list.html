@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
+{% load i18n %}  {# ✅ Load translation template tags #}
 
-{% block title %}All Reported Incidents{% endblock %}
+{% block title %}{% trans "All Reported Incidents" %}{% endblock %}
 
 {% block content %}
     <style>
-        /* Button Styling */
         .vote-btn {
             display: inline-block;
             padding: 8px 12px;
@@ -22,33 +22,34 @@
         }
     </style>
 
-    <h1>🚨 All Reported Spam Incidents</h1>
+    <h1>🚨 {% trans "All Reported Spam Incidents" %}</h1>
+
+    <!-- 🔍 Filter Form -->
     <form method="GET" style="margin-bottom: 20px; background: #f1f1f1; padding: 15px; border-radius: 8px;">
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" name="q" placeholder="Search..." value="{{ query }}" />
-            <input type="text" name="spam_type" placeholder="Spam Type" value="{{ spam_type }}" />
+            <input type="text" name="q" placeholder="{% trans 'Search...' %}" value="{{ query }}" />
+            <input type="text" name="spam_type" placeholder="{% trans 'Spam Type' %}" value="{{ spam_type }}" />
             <input type="text" name="siren" placeholder="SIREN" value="{{ siren }}" />
-            <input type="text" name="email" placeholder="Victim or Spammer Email" value="{{ email }}" />
-            <input type="text" name="name" placeholder="Spammer Name" value="{{ name }}" />
-            <button type="submit">🔍 Filter</button>
+            <input type="text" name="email" placeholder="{% trans 'Victim or Spammer Email' %}" value="{{ email }}" />
+            <input type="text" name="name" placeholder="{% trans 'Spammer Name' %}" value="{{ name }}" />
+            <button type="submit">🔍 {% trans "Filter" %}</button>
         </div>
     </form>
-    
+
     <!-- Report List -->
     <div class="accident-grid">
         {% for report in accidents %}
         <div class="report-card">
-            <h2>{{ report.title|default:"Untitled Report" }}</h2>
-            <p><strong>Spam Type:</strong> {{ report.spam_type|default:"Not specified" }}</p>
-            <p class="date"><strong>Date:</strong> {{ report.created_at }}</p>
-            <p><strong>Description:</strong> {{ report.description|default:"No description available." }}</p>
-            
-            <!-- Vote Count & Button -->
-            <p><strong>👍 Votes:</strong> <span id="vote-count-{{ report.id }}">{{ report.vote_count }}</span></p>
-            <button class="vote-btn" onclick="vote({{ report.id }})">✅ I Experienced This</button>
+            <h2>{{ report.title|default:_("Untitled Report") }}</h2>
+            <p><strong>{% trans "Spam Type" %}:</strong> {{ report.spam_type|default:_("Not specified") }}</p>
+            <p class="date"><strong>{% trans "Date" %}:</strong> {{ report.created_at }}</p>
+            <p><strong>{% trans "Description" %}:</strong> {{ report.description|default:_("No description available.") }}</p>
+
+            <p><strong>👍 {% trans "Votes" %}:</strong> <span id="vote-count-{{ report.id }}">{{ report.vote_count }}</span></p>
+            <button class="vote-btn" onclick="vote({{ report.id }})">✅ {% trans "I Experienced This" %}</button>
         </div>
         {% empty %}
-        <p>No spam incidents reported yet.</p>
+        <p>{% trans "No spam incidents reported yet." %}</p>
         {% endfor %}
     </div>
 
