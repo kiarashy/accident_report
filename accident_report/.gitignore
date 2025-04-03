@@ -29,3 +29,8 @@ ENV/
 */migrations/__pycache__/
 */migrations/*.pyc
 *.swp
+
+# Ignore virtual environment
+arnq/
+venv/
+env/
