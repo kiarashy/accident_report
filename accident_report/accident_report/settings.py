@@ -15,7 +15,7 @@ LOCALE_PATHS = [
 SECRET_KEY = 'django-insecure-#i=5anyic)8%vujwt@4kgup3y67lfkv0qu2=3_ma)qrq&s17*$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['arnaque-hunter.com', 'www.arnaque-hunter.com']
 
@@ -69,12 +69,14 @@ WSGI_APPLICATION = 'accident_report.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'arnaqueh_arqdb',
+        'USER': 'arnq_admin',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
