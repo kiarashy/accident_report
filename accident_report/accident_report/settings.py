@@ -76,7 +76,6 @@ DATABASES = {
         'USER': 'arnq_admin',
         'PASSWORD': '12345',
         'HOST': '127.0.0.1',
-        # 'HOST': 'arnaque-hunter.com',
         'PORT': '5432',
     }
 }
