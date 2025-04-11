@@ -1,28 +1,28 @@
-from django.utils.translation import gettext_lazy as _
-import os
 from pathlib import Path
+import os
+import logging
+from dotenv import load_dotenv
+from django.utils.translation import gettext_lazy as _
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Load environment variables from .env
 BASE_DIR = Path(__file__).resolve().parent.parent
-LOCALE_PATHS = [
-    BASE_DIR / "locale",
-]
+load_dotenv(dotenv_path=BASE_DIR / '.env') 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+# Basic logging
+logging.basicConfig(level=logging.DEBUG)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#i=5anyic)8%vujwt@4kgup3y67lfkv0qu2=3_ma)qrq&s17*$'
+# Project base directory
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Locale path for translations
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
-ALLOWED_HOSTS = ['arnaque-hunter.com', 'www.arnaque-hunter.com']
-
-
+# Security
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '!!!SET_A_SECRET_KEY!!!')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,16 +30,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # Third-party apps
     'rest_framework',
 
-    # Custom apps
+    # Local apps
     'reports',
+    'blog_accident',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Enables i18n
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,7 +55,7 @@ ROOT_URLCONF = 'accident_report.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "reports/templates"],  # This is where Django will look for templates
+        'DIRS': [BASE_DIR / "reports/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,42 +70,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'accident_report.wsgi.application'
 
-
-# Database
+# Database config from .env
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'arnaqueh_arqdb',
-        'USER': 'arnq_admin',
-        'PASSWORD': '12345',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'fr'
 
 LANGUAGES = [
@@ -110,24 +98,14 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 
-
 USE_I18N = True
-LOCALE_PATHS = [BASE_DIR / 'locale']  # ✅ Where translations will be stored
-
+USE_L10N = True
+USE_TZ = True
 TIME_ZONE = 'UTC'
 
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+# Static files
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'

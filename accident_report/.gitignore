@@ -34,3 +34,4 @@ ENV/
 arnq/
 venv/
 env/
+.env
