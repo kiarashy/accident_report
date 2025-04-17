@@ -5,6 +5,5 @@ app_name = 'blog_accident'
 
 urlpatterns = [
     path('', views.blog_list, name='blog_list'),
-    path('slug/<slug:slug>/', views.blog_detail, name='blog_detail'),
-    path('id/<int:pk>/', views.blog_post_detail, name='blog_post_detail'),
+    path('<slug:slug>/', views.blog_detail, name='blog_post_detail'),  # SEO-friendly slug
 ]

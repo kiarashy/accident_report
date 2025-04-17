@@ -14,6 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 # Project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
 # Locale path for translations
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
 
     # Third-party apps
     'rest_framework',
@@ -109,3 +112,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_DIRS = [BASE_DIR / "static"]

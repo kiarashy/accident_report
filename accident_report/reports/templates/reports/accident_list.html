@@ -1,74 +1,99 @@
 {% extends 'base.html' %}
-{% load i18n %}  {# ✅ Load translation template tags #}
+{% load i18n %}
+{% load widget_tweaks %}
 
-{% block title %}{% trans "All Reported Incidents" %}{% endblock %}
+{% block title %}{% trans "Tous les signalements" %}{% endblock %}
 
 {% block content %}
-    <style>
-        .vote-btn {
-            display: inline-block;
-            padding: 8px 12px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            border: none;
-        }
+<style>
+    .vote-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+    }
 
-        .vote-btn:hover {
-            background: #218838;
-        }
-    </style>
+    .vote-btn:hover {
+        background: #218838;
+    }
 
-    <h1>🚨 {% trans "All Reported Spam Incidents" %}</h1>
+    .accident-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+    }
 
-    <!-- 🔍 Filter Form -->
-    <form method="GET" style="margin-bottom: 20px; background: #f1f1f1; padding: 15px; border-radius: 8px;">
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" name="q" placeholder="{% trans 'Search...' %}" value="{{ query }}" />
-            <input type="text" name="spam_type" placeholder="{% trans 'Spam Type' %}" value="{{ spam_type }}" />
-            <input type="text" name="siren" placeholder="SIREN" value="{{ siren }}" />
-            <input type="text" name="email" placeholder="{% trans 'Victim or Spammer Email' %}" value="{{ email }}" />
-            <input type="text" name="name" placeholder="{% trans 'Spammer Name' %}" value="{{ name }}" />
-            <button type="submit">🔍 {% trans "Filter" %}</button>
+    .report-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<h1 class="mb-4">🚨 {% trans "Tous les signalements d'arnaques" %}</h1>
+
+<!-- 🔍 Formulaire de filtre -->
+<form method="GET" class="mb-4 p-3 bg-light rounded">
+    <div class="row g-2">
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="q" placeholder="{% trans 'Recherche...' %}" value="{{ query }}">
         </div>
-    </form>
-
-    <!-- Report List -->
-    <div class="accident-grid">
-        {% for report in accidents %}
-        <div class="report-card">
-            <h2>{{ report.title|default:_("Untitled Report") }}</h2>
-            <p><strong>{% trans "Spam Type" %}:</strong> {{ report.spam_type|default:_("Not specified") }}</p>
-            <p class="date"><strong>{% trans "Date" %}:</strong> {{ report.created_at }}</p>
-            <p><strong>{% trans "Description" %}:</strong> {{ report.description|default:_("No description available.") }}</p>
-
-            <p><strong>👍 {% trans "Votes" %}:</strong> <span id="vote-count-{{ report.id }}">{{ report.vote_count }}</span></p>
-            <button class="vote-btn" onclick="vote({{ report.id }})">✅ {% trans "I Experienced This" %}</button>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="spam_type" placeholder="{% trans 'Type de spam' %}" value="{{ spam_type }}">
         </div>
-        {% empty %}
-        <p>{% trans "No spam incidents reported yet." %}</p>
-        {% endfor %}
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="siren" placeholder="SIREN" value="{{ siren }}">
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="email" placeholder="{% trans 'Email de la victime ou de l’escroc' %}" value="{{ email }}">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="name" placeholder="{% trans 'Nom de l’escroc' %}" value="{{ name }}">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">🔍</button>
+        </div>
     </div>
+</form>
 
-    <!-- AJAX Voting Script -->
-    <script>
-        function vote(reportId) {
-            fetch(`/accidents/${reportId}/upvote/`, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById(`vote-count-${reportId}`).innerText = data.new_vote_count;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
+<!-- Liste des signalements -->
+<div class="accident-grid">
+    {% for report in accidents %}
+    <div class="report-card">
+        <h5>{{ report.title|default:_("Rapport sans titre") }}</h5>
+        <p><strong>{% trans "Type de spam" %} :</strong> {{ report.spam_type|default:_("Non précisé") }}</p>
+        <p><strong>{% trans "Date" %} :</strong> {{ report.created_at|date:"d F Y" }}</p>
+        <p><strong>{% trans "Description" %} :</strong> {{ report.description|default:_("Pas de description disponible.") }}</p>
+        <p><strong>👍 {% trans "Votes" %} :</strong> <span id="vote-count-{{ report.id }}">{{ report.vote_count }}</span></p>
+        <button class="vote-btn" onclick="vote({{ report.id }})">✅ {% trans "Moi aussi" %}</button>
+    </div>
+    {% empty %}
+    <p>{% trans "Aucun signalement pour le moment." %}</p>
+    {% endfor %}
+</div>
+
+<!-- AJAX pour les votes -->
+<script>
+    function vote(reportId) {
+        fetch(`/accidents/${reportId}/upvote/`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(`vote-count-${reportId}`).innerText = data.new_vote_count;
+        })
+        .catch(error => console.error('Erreur :', error));
+    }
+</script>
 
 {% endblock %}

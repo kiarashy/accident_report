@@ -7,6 +7,8 @@ from .forms import AccidentReportForm
 from django.http import JsonResponse
 from django.db.models import Q
 from django.utils.translation import gettext as _
+from blog_accident.models import BlogPost
+from django.contrib import messages
 
 
 
@@ -17,9 +19,12 @@ class AccidentReportListCreateView(generics.ListCreateAPIView):
     queryset = AccidentReport.objects.all()
     serializer_class = AccidentReportSerializer
 
+def home(request):
+    latest_posts = BlogPost.objects.order_by('-created_at')[:3]
+    return render(request, 'home.html', {'latest_posts': latest_posts})
 
-def home_view(request):
-    return render(request, 'home.html')  # This will render the homepage template
+
+
 
 
 def accident_report_view(request):
@@ -27,11 +32,14 @@ def accident_report_view(request):
         form = AccidentReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('reports:success')   # Redirect after successful form submission
+            messages.success(request, _("Merci ! Votre signalement a bien été envoyé."))
+            return redirect('reports:home')
     else:
         form = AccidentReportForm()
 
     return render(request, 'report_form.html', {'form': form})
+        
+
 
 def success_view(request):
     return render(request, 'home.html')
@@ -93,4 +101,4 @@ def upvote_report(request, report_id):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'new_vote_count': report.vote_count})
 
-    return redirect('accident_list')  # Redirect to the list if not using AJAX
+    return redirect('reports:accident_list') # Redirect to the list if not using AJAX

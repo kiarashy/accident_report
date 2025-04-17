@@ -1,132 +1,86 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
 
-{% block title %}Report an Incident{% endblock %}
 
 {% block content %}
-    <style>
-        /* Form Container */
-        .form-container {
-            max-width: 600px;
-            margin: 20px auto;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
+<div class="container mt-5">
+    <h1 class="mb-4">{% trans "📢 Signaler une arnaque" %}</h1>
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* Form Fields */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-
-    </style>
-
-
-<div class="form-container">
-    <h1>📢 Signaler un incident de spam</h1>
-    <p>Merci de remplir le formulaire ci-dessous pour signaler un incident de spam ou d’arnaque.</p>
-
-    <form method="post">
+    <form method="post" novalidate>
         {% csrf_token %}
         
-        <div class="form-group">
-            {{ form.title.label_tag }}
-            {{ form.title }}
+        <div class="mb-3">
+            <label for="{{ form.title.id_for_label }}" class="form-label">
+                {% trans "Titre" %} <span style="color: red;">*</span>
+            </label>
+            {{ form.title|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.description.label_tag }}
-            {{ form.description }}
+        <div class="mb-3">
+            <label for="{{ form.description.id_for_label }}" class="form-label">
+                {% trans "Description" %} <span style="color: red;">*</span>
+            </label>
+            {{ form.description|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.spam_email.label_tag }}
-            {{ form.spam_email }}
-            <small>{{ form.spam_email.help_text }}</small>
+        <div class="mb-3">
+            <label for="{{ form.spam_email.id_for_label }}" class="form-label">
+                {% trans "Email de l'arnaqueur" %} 
+            </label>
+            {{ form.spam_email|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.spam_number.label_tag }}
-            {{ form.spam_number }}
+        <div class="mb-3">
+            <label for="{{ form.spam_number.id_for_label }}" class="form-label">
+                {% trans "Téléphone de l'arnaqueur" %} 
+            </label>
+            {{ form.spam_number|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.spam_type.label_tag }}
-            {{ form.spam_type }}
+        <div class="mb-3">
+            <label for="{{ form.spam_type.id_for_label }}" class="form-label">
+                {% trans "Type de spam" %} <span style="color: red;">*</span>
+            </label>
+            {{ form.spam_type|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.spam_name.label_tag }}
-            {{ form.spam_name }}
+        <div class="mb-3">
+            <label for="{{ form.spam_name.id_for_label }}" class="form-label">
+                {% trans "Nom de l'arnaqueur" %} <span style="color: red;">*</span>
+            </label>
+            {{ form.spam_name|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.spam_location.label_tag }}
-            {{ form.spam_location }}
+        <div class="mb-3">
+            <label for="{{ form.spam_location.id_for_label }}" class="form-label">
+                {% trans "Lieu de l'arnaque" %} 
+            </label>
+            {{ form.spam_location|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.siren.label_tag }}
-            {{ form.siren }}
-            <small>{{ form.siren.help_text }}</small>
+        <div class="mb-3">
+            <label for="{{ form.siren.id_for_label }}" class="form-label">
+                {% trans "Numéro SIREN" %} 
+            </label>
+            {{ form.siren|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.site.label_tag }}
-            {{ form.site }}
-            <small>{{ form.site.help_text }}</small>
+        <div class="mb-3">
+            <label for="{{ form.site.id_for_label }}" class="form-label">
+                {% trans "Site concerné" %} 
+            </label>
+            {{ form.site|add_class:"form-control" }}
         </div>
 
-        <div class="form-group">
-            {{ form.vic_email.label_tag }}
-            {{ form.vic_email }}
+        <div class="mb-3">
+            <label for="{{ form.vic_email.id_for_label }}" class="form-label">
+                {% trans "Votre email (optionnel)" %}
+            </label>
+            {{ form.vic_email|add_class:"form-control" }}
         </div>
 
-        <button type="submit" class="btn-submit">🚨 Soumettre le rapport</button>
+        <button type="submit" class="btn btn-primary">{% trans "Envoyer le signalement" %}</button>
     </form>
 </div>
 {% endblock %}
